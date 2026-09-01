@@ -30,4 +30,4 @@ def my_dag2():
     
     read_data()
 
-my_dag()
+my_dag2()
