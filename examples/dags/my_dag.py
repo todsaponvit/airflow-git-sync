@@ -12,10 +12,10 @@ import pandas as pd
     schedule=None,
     catchup=False,
 )
-def my_dag():
+def my_dag2():
     
     @task.pyspark(conn_id="my_spark_conn")
-    def read_data(spark: SparkSession, sc: SparkContext) -> pd.DataFrame:
+    def read_data(spark: SparkSession) -> pd.DataFrame:
         df = spark.createDataFrame(
             [
                 (1, "John Doe", 21),
