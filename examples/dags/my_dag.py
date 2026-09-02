@@ -14,20 +14,13 @@ import pandas as pd
 )
 def my_dag2():
     
-    @task.pyspark(conn_id="my_spark_conn")
-    def read_data(spark: SparkSession) -> pd.DataFrame:
-        df = spark.createDataFrame(
-            [
-                (1, "John Doe", 21),
-                (2, "Jane Doe", 22),
-                (3, "Joe Bloggs", 23),
-            ],
-            ["id", "name", "age"],
-        )
-        df.show()
-
-        return df.toPandas()
+    submit_job = SparkSubmitOperator(
+        task_id="submit_job",
+        conn_id="my_spark_conn",
+        application="include/scripts/read.py",
+        verbose=True,
+    )
     
-    read_data()
+    submit_job
 
 my_dag2()
