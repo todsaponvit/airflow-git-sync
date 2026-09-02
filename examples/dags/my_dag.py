@@ -12,15 +12,22 @@ import pandas as pd
     schedule=None,
     catchup=False,
 )
-def my_dag2():
+def my_dag3():
     
-    submit_job = SparkSubmitOperator(
-        task_id="submit_job",
-        conn_id="my_spark_conn",
-        application="/opt/airflow/dags/examples/dags/include/read_csv.py",
-        verbose=True,
-    )
-    
-    submit_job
+    @task.pyspark(conn_id="my_spark_conn")
+    def spark_task(spark: SparkSession) -> pd.DataFrame:
+        df = spark.createDataFrame(
+            [
+                (1, "John Doe", 21),
+                (2, "Jane Doe", 22),
+                (3, "Joe Bloggs", 23),
+            ],
+            ["id", "name", "age"],
+        )
+        df.show()
 
-my_dag2()
+        return df.toPandas()
+    
+    spark_task()
+
+my_dag3()
