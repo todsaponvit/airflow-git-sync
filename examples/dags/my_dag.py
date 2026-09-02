@@ -17,7 +17,7 @@ def my_dag2():
     submit_job = SparkSubmitOperator(
         task_id="submit_job",
         conn_id="my_spark_conn",
-        application="include/create_df.py",
+        application="/opt/airflow/dags/examples/dags/include/create_df.py",
         verbose=True,
     )
     
